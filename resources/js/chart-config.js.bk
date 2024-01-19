@@ -1,0 +1,152 @@
+
+
+
+
+let salesPurchasesChart;
+let currentMonthChart;
+let paymentChart;
+
+$(document).ready(function () {
+
+    let salesPurchasesBar = document.getElementById('salesPurchasesChart');
+
+    $.get('/sales-purchases/chart-data', function(response) {
+        if (!salesPurchasesChart) {
+            salesPurchasesChart = new CanvasJS.Chart(salesPurchasesBar, {
+                animationEnabled: true,
+                title: {
+                    text: "Ventas y Compras"
+                },
+                axisX: {
+                    title: "Días",
+                    interval: 1
+                },
+                axisY: {
+                    title: "Cantidad",
+                    includeZero: true
+                },
+                data: [{
+                    type: "bar",
+                    name: "Ventas",
+                    showInLegend: true,
+                    dataPoints: response.sales.original.data.map((value, index) => ({ x: index, y: value })),
+                    color: '#6366F1'
+                },
+                    {
+                        type: "bar",
+                        name: "Compras",
+                        showInLegend: true,
+                        dataPoints: response.purchases.original.data.map((value, index) => ({ x: index, y: value })),
+                        color: '#A5B4FC'
+                    }]
+            });
+            salesPurchasesChart.render();
+        } else {
+            salesPurchasesChart.options.data = [
+                {
+                    type: "bar",
+                    name: "Ventas",
+                    showInLegend: true,
+                    dataPoints: response.sales.original.data.map((value, index) => ({ x: index, y: value })),
+                    color: '#6366F1'
+                },
+                {
+                    type: "bar",
+                    name: "Compras",
+                    showInLegend: true,
+                    dataPoints: response.purchases.original.data.map((value, index) => ({ x: index, y: value })),
+                    color: '#A5B4FC'
+                }
+            ];
+            salesPurchasesChart.render();
+        }
+    });
+
+    let overviewChart = document.getElementById('currentMonthChart');
+
+    $.get('/current-month/chart-data', function(response) {
+        if (!currentMonthChart) {
+            currentMonthChart = new CanvasJS.Chart(overviewChart, {
+                animationEnabled: true,
+                title: {
+                    text: "Resumen del Mes"
+                },
+                data: [{
+                    type: "doughnut",
+                    showInLegend: true,
+                    legendText: "{label}",
+                    indexLabel: "{label}: #percent%",
+                    dataPoints: [
+                        { y: response.sales, label: "Ventas", color: '#F59E0B' },
+                        { y: response.purchases, label: "Compras", color: '#0284C7' },
+                        { y: response.expenses, label: "Gastos", color: '#EF4444' }
+                    ]
+                }]
+            });
+            currentMonthChart.render();
+        } else {
+            currentMonthChart.options.data[0].dataPoints = [
+                { y: response.sales, label: "Ventas", color: '#F59E0B' },
+                { y: response.purchases, label: "Compras", color: '#0284C7' },
+                { y: response.expenses, label: "Gastos", color: '#EF4444' }
+            ];
+            currentMonthChart.render();
+        }
+    });
+
+    let paymentChartElement = document.getElementById('paymentChart');
+
+    $.get('/payment-flow/chart-data', function(response) {
+        if (!paymentChart) {
+            paymentChart = new CanvasJS.Chart(paymentChartElement, {
+                animationEnabled: true,
+                title: {
+                    text: "Flujo de Pagos"
+                },
+                axisX: {
+                    title: "Meses"
+                },
+                axisY: {
+                    title: "Cantidad"
+                },
+                toolTip: {
+                    shared: true
+                },
+                data: [{
+                    type: "line",
+                    name: "Pagos Hechos",
+                    showInLegend: true,
+                    dataPoints: response.payment_sent.map((value, index) => ({ x: index, y: value })),
+                    color: '#EA580C'
+                },
+                    {
+                        type: "line",
+                        name: "Pagos Recibidos",
+                        showInLegend: true,
+                        dataPoints: response.payment_received.map((value, index) => ({ x: index, y: value })),
+                        color: '#2563EB'
+                    }]
+            });
+            paymentChart.render();
+        } else {
+            paymentChart.options.data = [
+                {
+                    type: "line",
+                    name: "Pagos Hechos",
+                    showInLegend: true,
+                    dataPoints: response.payment_sent.map((value, index) => ({ x: index, y: value })),
+                    color: '#EA580C'
+                },
+                {
+                    type: "line",
+                    name: "Pagos Recibidos",
+                    showInLegend: true,
+                    dataPoints: response.payment_received.map((value, index) => ({ x: index, y: value })),
+                    color: '#2563EB'
+                }
+            ];
+            paymentChart.render();
+        }
+    });
+
+});

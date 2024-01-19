@@ -1,0 +1,70 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Modules\Expense\Entities\Expense;
+use Modules\Purchase\Entities\Purchase;
+use Modules\Sale\Entities\Sale;
+use Modules\Sale\Entities\SalePayment;
+use LaravelDaily\LaravelCharts\Classes\LaravelChart;
+
+class HomeController extends Controller
+{
+    public function index()
+    {
+        // Gráfico de ventas y compras del último mes
+        $settings1 = [
+            'chart_title' => 'Ventas por mes',
+            'report_type' => 'group_by_date',
+            'model' => Sale::Class,
+            'group_by_field' => 'MONTH(created_at)',
+            'group_by_period' => 'month',
+            'chart_type' => 'bar',
+            'filter_field' => 'created_at',
+            'filter_days' => 30, // show only last 30 days
+        ];
+
+        $settings2 = [
+            'chart_title' => 'Compras por mes',
+            'report_type' => 'group_by_date',
+            'model' => Purchase::class,
+            'group_by_field' => 'MONTH(created_at)',
+            'group_by_period' => 'month',
+            'chart_type' => 'bar',
+            'filter_field' => 'created_at',
+            'filter_days' => 30, // show only last 30 days
+        ];
+
+        $lastMonthChart = new LaravelChart($settings1, $settings2);
+
+        // Gráfico de ventas y compras de los últimos 7 días
+
+        $settings1 = [
+            'chart_title' => 'Ventas en los ultimos 7 dias',
+            'report_type' => 'group_by_date',
+            'model' => Sale::Class,
+            'group_by_field' => 'created_at',
+            'group_by_period' => 'month',
+            'chart_type' => 'line',
+            'filter_field' => 'created_at',
+            'filter_days' => 7, // show only last 30 days
+        ];
+
+        $settings2 = [
+            'chart_title' => 'Compras en los últimos 7 dias',
+            'report_type' => 'group_by_date',
+            'model' => Purchase::class,
+            'group_by_field' => 'created_at',
+            'group_by_period' => 'month',
+            'chart_type' => 'line',
+            'filter_field' => 'created_at',
+            'filter_days' => 7, // show only last 30 days
+        ];
+
+        $last7DaysChart = new LaravelChart($settings1, $settings2);
+
+
+
+        return view('home', compact('lastMonthChart', 'last7DaysChart'));
+    }
+}
