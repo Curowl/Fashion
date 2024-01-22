@@ -61,11 +61,14 @@
                                         <label for="barcode_symbology">Símbolo de Código de Barras <span class="text-danger">*</span></label>
                                         <select class="form-control" name="product_barcode_symbology" id="barcode_symbology" required>
                                             <option value="" selected disabled>Seleccionar Símbolo</option>
+                                            {{--
                                             <option value="C128">Código 128</option>
                                             <option value="C39">Código 39</option>
                                             <option value="UPCA">UPC-A</option>
                                             <option value="UPCE">UPC-E</option>
-                                            <option selected value="EAN13">EAN-13</option><option value="EAN8">EAN-8</option>
+                                            --}}
+                                            <option selected value="EAN13">EAN-13</option>
+                                            <option value="EAN8">EAN-8</option>
                                         </select>
                                     </div>
                                 </div>
@@ -168,13 +171,34 @@
 @push('page_scripts')
     <script>
         var uploadedDocumentMap = {}
+        const options = Dropzone.options.documentDropzone
+
         Dropzone.options.documentDropzone = {
+
             url: '{{ route('dropzone.upload') }}',
             maxFilesize: 1,
             acceptedFiles: '.jpg, .jpeg, .png',
             maxFiles: 3,
             addRemoveLinks: true,
-            dictRemoveFile: "<i class='bi bi-x-circle text-danger'></i> remove",
+            dictRemoveFile: "<i class='bi bi-x-circle text-danger'></i> Remover",
+
+            dictDefaultMessage: "Arrastra archivos aquí o haz clic para subir",
+
+            dictFallbackMessage: "Tu navegador no admite carga de archivos por arrastrarlos, <br/>por favor usa el botón de subida.",
+
+            dictFallbackText: "Subir archivos",
+
+            dictFileTooBig: "El archivo es demasiado grande. Tamaño máximo: 1 MB C/Imagen ",
+
+            dictInvalidFileType: "No se permite cargar archivos de este tipo.",
+
+            dictResponseError: "Error al subir el archivo.",
+
+            dictCancelUpload: "Cancelar subida",
+
+            dictCancelUploadConfirmation: "¿Está seguro de cancelar la subida?",
+
+
             headers: {
                 "X-CSRF-TOKEN": "{{ csrf_token() }}"
             },

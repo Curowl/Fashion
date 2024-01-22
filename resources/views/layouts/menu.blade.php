@@ -8,7 +8,7 @@
 @can('access_expenses')
     <li class="c-sidebar-nav-item c-sidebar-nav-dropdown {{ request()->routeIs('turnos.*') ? 'c-show' : '' }}">
         <a class="c-sidebar-nav-link c-sidebar-nav-dropdown-toggle" href="#">
-            <i class="c-sidebar-nav-icon bi bi-cash" style="line-height: 1;"></i> Turnos de Caja
+            <i class="c-sidebar-nav-icon bi bi-cash" style="line-height: 1;"></i> Turnos de caja
         </a>
         <ul class="c-sidebar-nav-dropdown-items custom-ul">
             <li class="c-sidebar-nav-item">
@@ -126,7 +126,7 @@
         <ul class="c-sidebar-nav-dropdown-items custom-ul">
             <li class="c-sidebar-nav-item">
                 <a class="c-sidebar-nav-link {{ request()->routeIs('purchases.index') ? 'c-active' : '' }}" href="{{ route('purchases.index') }}">
-                    <i class="c-sidebar-nav-icon bi bi-journals" style="line-height: 1;"></i> listar inversiónes
+                    <i class="c-sidebar-nav-icon bi bi-journals" style="line-height: 1;"></i> Listar inversiónes
                 </a>
             </li>
         </ul>
@@ -190,7 +190,7 @@
             <ul class="c-sidebar-nav-dropdown-items custom-ul">
                 <li class="c-sidebar-nav-item">
                     <a class="c-sidebar-nav-link {{ request()->routeIs('sale-returns.create') ? 'c-active' : '' }}" href="{{ route('sale-returns.create') }}">
-                        <i class="c-sidebar-nav-icon bi bi-journal-plus" style="line-height: 1;"></i> generar una devolución
+                        <i class="c-sidebar-nav-icon bi bi-journal-plus" style="line-height: 1;"></i> Generar una devolución
                     </a>
                 </li>
             </ul>
@@ -289,7 +289,7 @@
             </li>
             <li class="c-sidebar-nav-item">
                 <a class="c-sidebar-nav-link {{ request()->routeIs('purchases-report.index') ? 'c-active' : '' }}" href="{{ route('purchases-report.index') }}">
-                    <i class="c-sidebar-nav-icon bi bi-clipboard-data" style="line-height: 1;"></i> Reporte de Inversiònes </a>
+                    <i class="c-sidebar-nav-icon bi bi-clipboard-data" style="line-height: 1;"></i> Reporte de Inversiónes </a>
             </li>
             <li class="c-sidebar-nav-item">
                 <a class="c-sidebar-nav-link {{ request()->routeIs('sales-return-report.index') ? 'c-active' : '' }}" href="{{ route('sales-return-report.index') }}">
